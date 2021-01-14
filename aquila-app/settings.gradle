@@ -1,0 +1,4 @@
+include ':lib-client'
+include ':wear'
+include ':app'
+rootProject.name = "whoami"
