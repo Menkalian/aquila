@@ -1,4 +1,4 @@
-package de.menkalian.whoami
+package de.menkalian.aquila
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

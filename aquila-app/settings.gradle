@@ -1,4 +1,4 @@
 include ':lib-client'
-include ':wear'
-include ':app'
-rootProject.name = "whoami"
+include ':app-wear'
+include ':app-android'
+rootProject.name = "aquila-app"

@@ -1,4 +1,4 @@
-package de.menkalian.whoami
+package de.menkalian.aquila
 
 import android.os.Bundle
 import android.support.wearable.activity.WearableActivity
