@@ -1,0 +1,27 @@
+configBuild:
+  stage: lib-build
+  script:
+    - cd aquila-config
+    - gradle publishToMavenLocal
+  artifacts:
+    paths:
+      - aquila-config/build
+    expire_in: 1 week
+
+configTest:
+  stage: lib-test
+  script:
+    - cd aquila-config
+    - gradle test
+
+configPublish:
+  stage: lib-deploy
+  only:
+    - main
+  script:
+    - cd aquila-config
+    - gradle publish
+  artifacts:
+    paths:
+      - aquila-config/build/libs/*.jar
+    expire_in: 1 month

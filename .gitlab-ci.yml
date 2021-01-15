@@ -1,0 +1,18 @@
+stages:
+  - lib-build
+  - lib-test
+  - lib-deploy
+  - application-build
+  - application-test
+  - application-deploy
+  - application-rollout
+
+default:
+  image: gradle:6.8.0-jdk15
+  tags:
+    - docker
+
+include:
+  - local: ci-configs/aquila_config.yml
+  - local: ci-configs/aquila_server.yml
+  - local: ci-configs/aquila_apps.yml

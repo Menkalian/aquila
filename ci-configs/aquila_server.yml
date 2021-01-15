@@ -1,0 +1,48 @@
+serverBuild:
+  stage: application-build
+  script:
+    - cd aquila-server
+    - gradle publishToMavenLocal
+  artifacts:
+    paths:
+      - aquila-server/build
+    expire_in: 1 week
+
+serverTest:
+  stage: application-test
+  script:
+    - cd aquila-server
+    - gradle test
+
+serverPublish:
+  stage: application-deploy
+  only:
+    - main
+  script:
+    - cd aquila-server
+    - gradle publish
+  artifacts:
+    paths:
+      - aquila-server/build/libs/*.jar
+    expire_in: 1 month
+
+serverDockerDeploy:
+  stage: application-deploy
+  only:
+    - main
+  image: docker:20
+  script:
+    - cd aquila-server
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t registry.gitlab.com/kiliankra/aquila/server:latest .
+    - docker push registry.gitlab.com/kiliankra/aquila/server:latest
+
+serverRollout:
+  stage: application-rollout
+  only:
+    - main
+  image: ubuntu:xenial
+  script:
+    - apt-get update
+    - apt-get install -y ssh
+    - ssh -i $SSH_KEY aquila@server.menkalian.de /home/aquila/aquila/restartServer.sh

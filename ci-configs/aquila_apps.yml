@@ -1,0 +1,34 @@
+appsBuild:
+  stage: application-build
+  script:
+    - cd aquila-app
+    - chmod +x ./gradlew
+    - gradlew assemble
+    - gradle publishToMavenLocal
+  artifacts:
+    paths:
+      - aquila-app/.gradle
+      - aquila-app/build
+      - aquila-app/*/build
+    expire_in: 1 week
+
+appsTest:
+  stage: application-test
+  script:
+    - cd aquila-app
+    - chmod +x ./gradlew
+    - gradlew test
+
+appsPublish:
+  stage: application-deploy
+  only:
+    - main
+  script:
+    - cd aquila-app
+    - chmod +x ./gradlew
+    - gradlew test
+  artifacts:
+    paths:
+      - aquila-app/*/build/outputs/apk/debug/*.apk
+      - aquila-app/*/build/outputs/apk/release/*.apk
+    expire_in: 1 month
