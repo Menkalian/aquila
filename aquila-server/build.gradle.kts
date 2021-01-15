@@ -36,4 +36,8 @@ publishing {
     }
 }
 
+tasks.jar{
+    archiveFileName.set("server.jar")
+}
+
 fun ktor(module: String, version: String = "1.5.0"): String = "io.ktor:ktor-$module:$version"
