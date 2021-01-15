@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    `maven-publish`
 }
 //apply from: "versioning.gradle"
 
@@ -28,6 +29,28 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                url = uri("http://server.menkalian.de:8081/artifactory/aquila")
+                name = "artifactory-menkalian"
+                authentication {
+                    credentials {
+                        username = System.getenv("MAVEN_REPO_USER")
+                        password = System.getenv("MAVEN_REPO_PASS")
+                    }
+                }
+            }
+        }
+        publications {
+            create<MavenPublication>("maven") {
+                from(components["release_apk"])
+            }
         }
     }
 }
