@@ -3,8 +3,7 @@ appsBuild:
   script:
     - cd aquila-app
     - chmod +x ./gradlew
-    - gradlew assemble
-    - gradle publishToMavenLocal
+    - ./gradlew assemble
   artifacts:
     paths:
       - aquila-app/.gradle
@@ -17,7 +16,7 @@ appsTest:
   script:
     - cd aquila-app
     - chmod +x ./gradlew
-    - gradlew test
+    - ./gradlew test
 
 appsPublish:
   stage: application-deploy
@@ -26,7 +25,7 @@ appsPublish:
   script:
     - cd aquila-app
     - chmod +x ./gradlew
-    - gradlew test
+    - ./gradlew publish
   artifacts:
     paths:
       - aquila-app/*/build/outputs/apk/debug/*.apk
