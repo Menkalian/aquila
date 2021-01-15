@@ -1,4 +1,0 @@
-include ':lib-client'
-include ':app-wear'
-include ':app-android'
-rootProject.name = "aquila-app"
