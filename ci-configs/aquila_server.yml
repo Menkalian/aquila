@@ -66,4 +66,5 @@ serverRollout:
   script:
     - apt-get update
     - apt-get install -y ssh
+    - chmod u=r,go=- $SSH_KEY
     - ssh -i $SSH_KEY -oStrictHostKeyChecking=no aquila@server.menkalian.de /home/aquila/aquila/restartServer.sh
