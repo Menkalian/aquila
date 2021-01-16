@@ -12,13 +12,6 @@ default:
   tags:
     - docker
 
-cache:
-  key: ${CI_PROJECT_ID}
-  paths:
-    - aquila-app/.gradle/
-    - aquila-config/.gradle/
-    - aquila-server/.gradle/
-
 include:
   - local: ci-configs/aquila_config.yml
   - local: ci-configs/aquila_server.yml
