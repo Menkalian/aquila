@@ -43,8 +43,14 @@ appsPublish:
     - chmod +x ./gradlew
     - ./gradlew publish
   after_script:
-    - git add aquila-app/*/version.properties
-    - git commit -m "Build Release Version CI"
+    - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
+    - git config --global user.email ${GITLAB_USER_EMAIL}
+    - git config --global user.name ${GITLAB_USER_NAME}
+    - git checkout -B main
+    - git add aquila-app/app-android/version.properties
+    - git add aquila-app/app-loader/version.properties
+    - git add aquila-app/app-wear/version.properties
+    - git commit -m "Update Release Version -- CI"
     - git push -u origin
   cache:
     key: aquila-app
