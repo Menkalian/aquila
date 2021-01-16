@@ -4,6 +4,8 @@ plugins {
     `maven-publish`
 }
 
+apply(from = rootProject.file("versioning.gradle.kts"))
+
 android {
     compileSdkVersion(30)
     buildToolsVersion("30.0.3")
@@ -12,8 +14,8 @@ android {
         applicationId("de.menkalian.aquila")
         minSdkVersion(26)
         targetSdkVersion(30)
-        versionCode(1)
-        versionName("1.0")
+        versionCode(extra["buildNumber"].toString().toInt())
+        versionName("1.0.0_${extra["buildNumber"]}")
 
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
     }
