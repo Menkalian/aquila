@@ -51,7 +51,7 @@ appsPublish:
     - git add aquila-app/app-loader/version.properties
     - git add aquila-app/app-wear/version.properties
     - git commit -m "Update Release Version -- CI"
-    - git push -u origin
+    - git push -u origin main
   cache:
     key: aquila-app
     paths:
