@@ -41,7 +41,7 @@ appsPublish:
   script:
     - cd aquila-app
     - chmod +x ./gradlew
-    - ./gradlew publish
+    - ./gradlew assemble publish
   after_script:
     - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
     - git config --global user.email ${GITLAB_USER_EMAIL}
