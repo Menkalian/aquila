@@ -8,7 +8,7 @@ appsBuild:
   cache:
     key: aquila-app
     paths:
-      - aquila-app/.qradle
+      - aquila-app/.gradle
   except:
     changes:
       - aquila-app/*/version.properties
@@ -28,7 +28,7 @@ appsTest:
   cache:
     key: aquila-app
     paths:
-      - aquila-app/.qradle
+      - aquila-app/.gradle
   except:
     changes:
       - aquila-app/*/version.properties
@@ -49,7 +49,7 @@ appsPublish:
   cache:
     key: aquila-app
     paths:
-      - aquila-app/.qradle
+      - aquila-app/.gradle
   except:
     changes:
       - aquila-app/*/version.properties
