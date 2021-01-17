@@ -1,15 +1,19 @@
+.server:
+  cache:
+    key: aquila-server
+    paths:
+      - aquila-server/.gradle
+  only:
+    changes:
+      - aquila-server
+
 serverBuild:
   stage: application-build
   script:
     - cd aquila-server
     - gradle publishToMavenLocal
-  cache:
-    key: aquila-server
-    paths:
-      - aquila-server/.gradle
-  except:
-    changes:
-      - aquila-app/*/version.properties
+  extends:
+    - .server
   artifacts:
     paths:
       - aquila-server/build
@@ -20,28 +24,17 @@ serverTest:
   script:
     - cd aquila-server
     - gradle test
-  cache:
-    key: aquila-server
-    paths:
-      - aquila-server/.gradle
-  except:
-    changes:
-      - aquila-app/*/version.properties
+  extends:
+    - .server
 
 serverPublish:
   stage: application-deploy
-  only:
-    - main
   script:
     - cd aquila-server
     - gradle publish
-  cache:
-    key: aquila-server
-    paths:
-      - aquila-server/.gradle
-  except:
-    changes:
-      - aquila-app/*/version.properties
+  extends:
+    - .server
+    - .deployment
   artifacts:
     paths:
       - aquila-server/build/libs/*.jar
@@ -49,28 +42,24 @@ serverPublish:
 
 serverDockerDeploy:
   stage: application-deploy
-  only:
-    - main
   image: docker:20
   script:
     - cd aquila-server
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.gitlab.com
     - docker build -t registry.gitlab.com/kiliankra/aquila/server:latest .
     - docker push registry.gitlab.com/kiliankra/aquila/server:latest
-  except:
-    changes:
-      - aquila-app/*/version.properties
+  extends:
+    - .server
+    - .deployment
 
 serverRollout:
   stage: application-rollout
-  only:
-    - main
   image: ubuntu:xenial
   script:
     - apt-get update
     - apt-get install -y ssh
     - chmod u=r,go=- $SSH_KEY
     - ssh -i $SSH_KEY -oStrictHostKeyChecking=no aquila@server.menkalian.de /home/aquila/aquila/restartServer.sh
-  except:
-    changes:
-      - aquila-app/*/version.properties
+  extends:
+    - .server
+    - .deployment

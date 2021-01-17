@@ -1,15 +1,19 @@
+.config:
+  cache:
+    key: aquila-config
+    paths:
+      - aquila-config/.gradle
+  only:
+    changes:
+      - aquila-config
+
 configBuild:
   stage: lib-build
   script:
     - cd aquila-config
     - gradle publishToMavenLocal
-  cache:
-    key: aquila-config
-    paths:
-      - aquila-config/.gradle
-  except:
-    changes:
-      - aquila-app/*/version.properties
+  extends:
+    - .config
   artifacts:
     paths:
       - aquila-config/build
@@ -20,28 +24,17 @@ configTest:
   script:
     - cd aquila-config
     - gradle test
-  cache:
-    key: aquila-config
-    paths:
-      - aquila-config/.gradle
-  except:
-    changes:
-      - aquila-app/*/version.properties
+  extends:
+    - .config
 
 configPublish:
   stage: lib-deploy
-  only:
-    - main
   script:
     - cd aquila-config
     - gradle publish
-  cache:
-    key: aquila-config
-    paths:
-      - aquila-config/.gradle
-  except:
-    changes:
-      - aquila-app/*/version.properties
+  extends:
+    - .config
+    - .deployment
   artifacts:
     paths:
       - aquila-config/build/libs/*.jar
