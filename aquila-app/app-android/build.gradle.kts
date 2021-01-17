@@ -10,6 +10,15 @@ android {
     compileSdkVersion(30)
     buildToolsVersion("30.0.3")
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("SIGNING_KEYSTORE_LOCATION"))
+            storePassword = System.getenv("SIGNING_KEYSTORE_PASS")
+            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword = System.getenv("SIGNING_KEY_PASS")
+        }
+    }
+
     defaultConfig {
         applicationId("de.menkalian.aquila")
         minSdkVersion(26)
@@ -27,7 +36,10 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.findByName("release")!!
         }
     }
 }
@@ -49,6 +61,10 @@ afterEvaluate {
         publications {
             create<MavenPublication>("maven") {
                 from(components["release_apk"])
+
+                groupId = "de.menkalian.aquila"
+                artifactId = "app-android"
+                version = "1.0.0_${extra["buildNumber"]}"
             }
         }
     }
