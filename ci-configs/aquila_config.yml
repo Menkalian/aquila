@@ -7,7 +7,7 @@
       - aquila-config/.gradle
   only:
     changes:
-      - aquila-config/*
+      - aquila-config/**
 
 configBuild:
   stage: lib-build

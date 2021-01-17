@@ -12,14 +12,14 @@
 .lib-client:
   only:
     changes:
-      - aquila-app/lib-client/*
+      - aquila-app/lib-client/**
       - aquila-app/*gradle*
 
 .app-android:
   only:
     changes:
-      - aquila-app/app-android/*
-      - aquila-app/lib-client/*
+      - aquila-app/app-android/**
+      - aquila-app/lib-client/**
       - aquila-app/game-*
       - aquila-app/*gradle*
   except:
@@ -29,8 +29,8 @@
 .app-loader:
   only:
     changes:
-      - aquila-app/app-loader/*
-      - aquila-app/lib-client/*
+      - aquila-app/app-loader/**
+      - aquila-app/lib-client/**
       - aquila-app/*gradle*
   except:
     changes:
@@ -39,8 +39,8 @@
 .app-wear:
   only:
     changes:
-      - aquila-app/app-wear/*
-      - aquila-app/lib-client/*
+      - aquila-app/app-wear/**
+      - aquila-app/lib-client/**
       - aquila-app/game-*
       - aquila-app/*gradle*
   except:
