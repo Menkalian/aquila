@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     `maven-publish`
+    id("de.menkalian.auriga")
 }
 
 apply(from = rootProject.file("versioning.gradle.kts"))
@@ -44,6 +45,12 @@ android {
             )
             signingConfig = signingConfigs.findByName("release")!!
         }
+    }
+}
+
+auriga {
+    loggingConfig {
+        mode = "DEFAULT_ON"
     }
 }
 

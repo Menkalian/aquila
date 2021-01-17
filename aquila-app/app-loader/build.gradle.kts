@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     `maven-publish`
+    id("de.menkalian.auriga")
 }
 
 apply(from = rootProject.file("versioning.gradle.kts"))
@@ -48,6 +49,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+auriga {
+    loggingConfig {
+        mode = "DEFAULT_ON"
     }
 }
 
