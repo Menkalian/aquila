@@ -16,6 +16,9 @@ android {
             storePassword = System.getenv("SIGNING_KEYSTORE_PASS")
             keyAlias = System.getenv("SIGNING_KEY_ALIAS")
             keyPassword = System.getenv("SIGNING_KEY_PASS")
+
+            this.isV1SigningEnabled = true
+            this.isV2SigningEnabled = true
         }
     }
 
