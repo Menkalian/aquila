@@ -44,7 +44,6 @@ android {
 }
 
 auriga {
-    // Test
     loggingConfig {
         mode = "DEFAULT_ON"
     }
