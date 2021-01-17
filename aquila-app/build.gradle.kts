@@ -11,23 +11,15 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:4.1.1")
         classpath(kotlin("gradle-plugin", version = "1.4.21"))
-//        classpath "de.menkalian.auriga:auriga-gradle-plugin:1.0.1"
+        classpath("de.menkalian.auriga:auriga-gradle-plugin:1.0.1")
     }
 }
 
 allprojects {
-//    apply plugin: "de.menkalian.auriga"
-
     repositories {
         google()
         jcenter()
     }
-
-//    auriga {
-//        loggingConfig {
-//            mode = "DEFAULT_ON"
-//        }
-//    }
 }
 
 tasks.register("clean", Delete::class) {
