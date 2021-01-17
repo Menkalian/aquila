@@ -2,18 +2,26 @@ plugins {
     java
     kotlin("jvm") version "1.4.21"
     `maven-publish`
+    application
+    id("com.github.johnrengelman.shadow") version "2.0.1"
 }
 
 group = "de.menkalian.aquila"
 version = "1.0.0"
 
+application.mainClass.set("de.menkalian.aquila.server.ApplicationKt")
+
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation(ktor("server-core"))
+    implementation(ktor("server-tomcat"))
+    implementation(ktor("serialization"))
 }
 
 publishing {
@@ -36,7 +44,7 @@ publishing {
     }
 }
 
-tasks.jar{
+tasks.jar {
     archiveFileName.set("server.jar")
 }
 
