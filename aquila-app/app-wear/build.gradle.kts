@@ -66,7 +66,7 @@ afterEvaluate {
                 from(components["release_apk"])
 
                 groupId = "de.menkalian.aquila"
-                artifactId = "app-android"
+                artifactId = "app-wear"
                 version = "1.0.0_${extra["buildNumber"]}"
             }
         }
