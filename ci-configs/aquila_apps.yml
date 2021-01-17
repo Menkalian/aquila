@@ -8,85 +8,14 @@
     paths:
       - aquila-app/.gradle
       - ~/.gradle/*
-
-#.lib-client:
-#  only:
-#    changes:
-#      - aquila-app/lib-client/**
-#      - aquila-app/*gradle*
-
-.app-android:
-#  only:
-#    changes:
-#      - aquila-app/app-android/**
-#      - aquila-app/lib-client/**
-#      - aquila-app/game-*
-#      - aquila-app/*gradle*
   except:
     changes:
-      - aquila-app/app-android/version.properties
-
-.app-loader:
-#  only:
-#    changes:
-#      - aquila-app/app-loader/**
-#      - aquila-app/lib-client/**
-#      - aquila-app/*gradle*
-  except:
-    changes:
-      - aquila-app/app-loader/version.properties
-
-.app-wear:
-#  only:
-#    changes:
-#      - aquila-app/app-wear/**
-#      - aquila-app/lib-client/**
-#      - aquila-app/game-*
-#      - aquila-app/*gradle*
-  except:
-    changes:
-      - aquila-app/app-wear/version.properties
-
-
-clientLibBuild:
-  stage: lib-build
-  script:
-    - ./gradlew lib-client:assemble
-  artifacts:
-    paths:
-      - aquila-app/build
-      - aquila-app/*/build
-    expire_in: 1 week
-  extends:
-    - .apps
-#    - .lib-client
-
-clientLibTest:
-  stage: lib-test
-  script:
-    - ./gradlew lib-client:test
-  extends:
-    - .apps
-#    - .lib-client
-
-clientLibPublish:
-  stage: lib-deploy
-  script:
-    - ./gradlew lib-client:assemble lib-client:publish
-  extends:
-    - .apps
-#    - .lib-client
-    - .deployment
-  artifacts:
-    paths:
-      - aquila-app/*/build/outputs/aar/*
-    expire_in: 1 month
-
+      - aquila-app/*/version.properties
 
 androidAppBuild:
   stage: application-build
   script:
-    - ./gradlew app-android:assemble
+    - ./gradlew assemble
   artifacts:
     paths:
       - aquila-app/build
@@ -94,119 +23,30 @@ androidAppBuild:
     expire_in: 1 week
   extends:
     - .apps
-    - .app-android
 
 androidAppTest:
   stage: application-test
   script:
-    - ./gradlew app-android:test
+    - ./gradlew test
   extends:
     - .apps
-    - .app-android
 
 androidAppPublish:
   stage: application-deploy
   script:
-    - ./gradlew app-android:assemble app-android:publish
+    - ./gradlew assemble publish
   after_script:
     - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
     - git config --global user.email ${GITLAB_USER_EMAIL}
     - git config --global user.name ${GITLAB_USER_NAME}
     - git checkout -B main
     - git add aquila-app/app-android/version.properties
-    - git commit -m "Update Release Version -- CI"
-    - git push -u origin main
-  extends:
-    - .apps
-    - .app-android
-    - .deployment
-  artifacts:
-    paths:
-      - aquila-app/*/build/outputs/apk/debug/*.apk
-      - aquila-app/*/build/outputs/apk/release/*.apk
-    expire_in: 1 month
-
-
-loaderAppBuild:
-  stage: application-build
-  script:
-    - ./gradlew app-loader:assemble
-  artifacts:
-    paths:
-      - aquila-app/build
-      - aquila-app/*/build
-    expire_in: 1 week
-  extends:
-    - .apps
-    - .app-loader
-
-loaderAppTest:
-  stage: application-test
-  script:
-    - ./gradlew app-loader:test
-  extends:
-    - .apps
-    - .app-loader
-
-loaderAppPublish:
-  stage: application-deploy
-  script:
-    - ./gradlew app-loader:assemble app-loader:publish
-  after_script:
-    - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
-    - git config --global user.email ${GITLAB_USER_EMAIL}
-    - git config --global user.name ${GITLAB_USER_NAME}
-    - git checkout -B main
     - git add aquila-app/app-loader/version.properties
-    - git commit -m "Update Release Version -- CI"
-    - git push -u origin main
-  extends:
-    - .apps
-    - .app-loader
-    - .deployment
-  artifacts:
-    paths:
-      - aquila-app/*/build/outputs/apk/debug/*.apk
-      - aquila-app/*/build/outputs/apk/release/*.apk
-    expire_in: 1 month
-
-
-wearAppBuild:
-  stage: application-build
-  script:
-    - ./gradlew app-wear:assemble
-  artifacts:
-    paths:
-      - aquila-app/build
-      - aquila-app/*/build
-    expire_in: 1 week
-  extends:
-    - .apps
-    - .app-wear
-
-wearAppTest:
-  stage: application-test
-  script:
-    - ./gradlew app-wear:test
-  extends:
-    - .apps
-    - .app-wear
-
-wearAppPublish:
-  stage: application-deploy
-  script:
-    - ./gradlew app-wear:assemble app-wear:publish
-  after_script:
-    - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
-    - git config --global user.email ${GITLAB_USER_EMAIL}
-    - git config --global user.name ${GITLAB_USER_NAME}
-    - git checkout -B main
     - git add aquila-app/app-wear/version.properties
     - git commit -m "Update Release Version -- CI"
     - git push -u origin main
   extends:
     - .apps
-    - .app-wear
     - .deployment
   artifacts:
     paths:

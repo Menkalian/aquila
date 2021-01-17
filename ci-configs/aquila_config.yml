@@ -5,6 +5,9 @@
     key: aquila-config
     paths:
       - aquila-config/.gradle
+  except:
+    changes:
+      - aquila-app/*/version.properties
 
 configBuild:
   stage: lib-build
