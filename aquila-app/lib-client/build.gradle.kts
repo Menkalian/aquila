@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     `maven-publish`
+    id("de.menkalian.auriga")
 }
 
 android {
@@ -39,6 +40,12 @@ android {
                          )
             signingConfig = signingConfigs.findByName("release")!!
         }
+    }
+}
+
+auriga {
+    loggingConfig {
+        mode = "DEFAULT_ON"
     }
 }
 
