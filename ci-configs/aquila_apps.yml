@@ -9,40 +9,40 @@
       - aquila-app/.gradle
       - ~/.gradle/*
 
-.lib-client:
-  only:
-    changes:
-      - aquila-app/lib-client/**
-      - aquila-app/*gradle*
+#.lib-client:
+#  only:
+#    changes:
+#      - aquila-app/lib-client/**
+#      - aquila-app/*gradle*
 
 .app-android:
-  only:
-    changes:
-      - aquila-app/app-android/**
-      - aquila-app/lib-client/**
-      - aquila-app/game-*
-      - aquila-app/*gradle*
+#  only:
+#    changes:
+#      - aquila-app/app-android/**
+#      - aquila-app/lib-client/**
+#      - aquila-app/game-*
+#      - aquila-app/*gradle*
   except:
     changes:
       - aquila-app/app-android/version.properties
 
 .app-loader:
-  only:
-    changes:
-      - aquila-app/app-loader/**
-      - aquila-app/lib-client/**
-      - aquila-app/*gradle*
+#  only:
+#    changes:
+#      - aquila-app/app-loader/**
+#      - aquila-app/lib-client/**
+#      - aquila-app/*gradle*
   except:
     changes:
       - aquila-app/app-loader/version.properties
 
 .app-wear:
-  only:
-    changes:
-      - aquila-app/app-wear/**
-      - aquila-app/lib-client/**
-      - aquila-app/game-*
-      - aquila-app/*gradle*
+#  only:
+#    changes:
+#      - aquila-app/app-wear/**
+#      - aquila-app/lib-client/**
+#      - aquila-app/game-*
+#      - aquila-app/*gradle*
   except:
     changes:
       - aquila-app/app-wear/version.properties
@@ -59,7 +59,7 @@ clientLibBuild:
     expire_in: 1 week
   extends:
     - .apps
-    - .lib-client
+#    - .lib-client
 
 clientLibTest:
   stage: lib-test
@@ -67,7 +67,7 @@ clientLibTest:
     - ./gradlew lib-client:test
   extends:
     - .apps
-    - .lib-client
+#    - .lib-client
 
 clientLibPublish:
   stage: lib-deploy
@@ -75,7 +75,7 @@ clientLibPublish:
     - ./gradlew lib-client:assemble lib-client:publish
   extends:
     - .apps
-    - .lib-client
+#    - .lib-client
     - .deployment
   artifacts:
     paths:

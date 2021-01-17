@@ -5,9 +5,6 @@
     key: aquila-server
     paths:
       - aquila-server/.gradle
-  only:
-    changes:
-      - aquila-server/**
 
 serverBuild:
   stage: application-build
