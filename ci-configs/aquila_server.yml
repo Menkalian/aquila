@@ -7,7 +7,7 @@
       - aquila-server/.gradle
   only:
     changes:
-      - aquila-server
+      - aquila-server/*
 
 serverBuild:
   stage: application-build
