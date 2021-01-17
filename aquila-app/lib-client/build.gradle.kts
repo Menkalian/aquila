@@ -8,6 +8,18 @@ android {
     compileSdkVersion(30)
     buildToolsVersion("30.0.3")
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("SIGNING_KEYSTORE_LOCATION") ?: "keystore.jks")
+            storePassword = System.getenv("SIGNING_KEYSTORE_PASS")
+            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword = System.getenv("SIGNING_KEY_PASS")
+
+            this.isV1SigningEnabled = true
+            this.isV2SigningEnabled = true
+        }
+    }
+
     defaultConfig {
         minSdkVersion(26)
         targetSdkVersion(30)
@@ -25,6 +37,7 @@ android {
                     getDefaultProguardFile("proguard-android-optimize.txt"),
                     "proguard-rules.pro"
                          )
+            signingConfig = signingConfigs.findByName("release")!!
         }
     }
 }
