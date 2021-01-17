@@ -9,6 +9,7 @@ appsBuild:
     key: aquila-app
     paths:
       - aquila-app/.gradle
+      - /root/.gradle/
   except:
     changes:
       - aquila-app/*/version.properties
@@ -29,6 +30,7 @@ appsTest:
     key: aquila-app
     paths:
       - aquila-app/.gradle
+      - /root/.gradle/
   except:
     changes:
       - aquila-app/*/version.properties
@@ -56,6 +58,7 @@ appsPublish:
     key: aquila-app
     paths:
       - aquila-app/.gradle
+      - /root/.gradle/
   except:
     changes:
       - aquila-app/*/version.properties
