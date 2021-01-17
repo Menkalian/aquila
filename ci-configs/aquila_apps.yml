@@ -51,7 +51,6 @@
 clientLibBuild:
   stage: lib-build
   script:
-    - cd aquila-app
     - ./gradlew lib-client:assemble
   artifacts:
     paths:
@@ -65,7 +64,6 @@ clientLibBuild:
 clientLibTest:
   stage: lib-test
   script:
-    - cd aquila-app
     - ./gradlew lib-client:test
   extends:
     - .apps
@@ -74,7 +72,6 @@ clientLibTest:
 clientLibPublish:
   stage: lib-deploy
   script:
-    - cd aquila-app
     - ./gradlew lib-client:assemble lib-client:publish
   extends:
     - .apps
@@ -89,7 +86,6 @@ clientLibPublish:
 androidAppBuild:
   stage: application-build
   script:
-    - cd aquila-app
     - ./gradlew app-android:assemble
   artifacts:
     paths:
@@ -103,7 +99,6 @@ androidAppBuild:
 androidAppTest:
   stage: application-test
   script:
-    - cd aquila-app
     - ./gradlew app-android:test
   extends:
     - .apps
@@ -112,7 +107,6 @@ androidAppTest:
 androidAppPublish:
   stage: application-deploy
   script:
-    - cd aquila-app
     - ./gradlew app-android:assemble app-android:publish
   after_script:
     - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
@@ -136,7 +130,6 @@ androidAppPublish:
 loaderAppBuild:
   stage: application-build
   script:
-    - cd aquila-app
     - ./gradlew app-loader:assemble
   artifacts:
     paths:
@@ -150,7 +143,6 @@ loaderAppBuild:
 loaderAppTest:
   stage: application-test
   script:
-    - cd aquila-app
     - ./gradlew app-loader:test
   extends:
     - .apps
@@ -159,7 +151,6 @@ loaderAppTest:
 loaderAppPublish:
   stage: application-deploy
   script:
-    - cd aquila-app
     - ./gradlew app-loader:assemble app-loader:publish
   after_script:
     - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
@@ -183,7 +174,6 @@ loaderAppPublish:
 wearAppBuild:
   stage: application-build
   script:
-    - cd aquila-app
     - ./gradlew app-wear:assemble
   artifacts:
     paths:
@@ -197,7 +187,6 @@ wearAppBuild:
 wearAppTest:
   stage: application-test
   script:
-    - cd aquila-app
     - ./gradlew app-wear:test
   extends:
     - .apps
@@ -206,7 +195,6 @@ wearAppTest:
 wearAppPublish:
   stage: application-deploy
   script:
-    - cd aquila-app
     - ./gradlew app-wear:assemble app-wear:publish
   after_script:
     - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
