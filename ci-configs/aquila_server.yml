@@ -12,7 +12,7 @@
 serverBuild:
   stage: application-build
   script:
-    - gradle publishToMavenLocal
+    - gradle shadowJar publishToMavenLocal
   extends:
     - .server
   artifacts:
