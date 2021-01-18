@@ -1,17 +1,18 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     java
     application
     `maven-publish`
     kotlin("jvm") version "1.4.21"
     kotlin("plugin.serialization") version "1.4.21"
-    id("com.github.johnrengelman.shadow") version "2.0.1"
+    id("com.github.johnrengelman.shadow") version "5.2.0"
     id("de.menkalian.auriga") version "1.0.1"
 }
 
 group = "de.menkalian.aquila"
 version = "1.0.0"
-
-application.mainClass.set("de.menkalian.aquila.server.ApplicationKt")
+setProperty("mainClassName", "de.menkalian.aquila.server.ApplicationKt")
 
 repositories {
     jcenter()
@@ -52,8 +53,10 @@ publishing {
     }
 }
 
-tasks.jar {
-    archiveFileName.set("server.jar")
+tasks.getByName<ShadowJar>("shadowJar"){
+    archiveBaseName.set("aquila-server")
+    archiveClassifier.set("")
+    archiveVersion.set("")
 }
 
 fun ktor(module: String, version: String = "1.5.0"): String = "io.ktor:ktor-$module:$version"
