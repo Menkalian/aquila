@@ -31,18 +31,71 @@ androidAppTest:
   extends:
     - .apps
 
+androidLibsPublish:
+  stage: application-deploy
+  script:
+    - ./gradlew assemble
+    - ./gradlew lib-client:publish
+  extends:
+    - .apps
+    - .deployment
+  artifacts:
+    paths:
+      - aquila-app/*/build/outputs/aar/*.aar
+    expire_in: 1 month
+
 androidAppPublish:
   stage: application-deploy
   script:
-    - ./gradlew assemble publish
+    - ./gradlew app-android:assemble app-android:publish
   after_script:
     - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
     - git config --global user.email ${GITLAB_USER_EMAIL}
     - git config --global user.name ${GITLAB_USER_NAME}
     - git checkout -B main
     - git add aquila-app/app-android/version.properties
-    - git add aquila-app/app-loader/version.properties
+    - git commit -m "Update Release Version -- CI"
+    - git push -u origin main
+  extends:
+    - .apps
+    - .deployment
+  artifacts:
+    paths:
+      - aquila-app/*/build/outputs/apk/debug/*.apk
+      - aquila-app/*/build/outputs/apk/release/*.apk
+    expire_in: 1 month
+
+wearAppPublish:
+  stage: application-deploy
+  script:
+    - ./gradlew app-wear:assemble app-wear:publish
+  after_script:
+    - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
+    - git config --global user.email ${GITLAB_USER_EMAIL}
+    - git config --global user.name ${GITLAB_USER_NAME}
+    - git checkout -B main
     - git add aquila-app/app-wear/version.properties
+    - git commit -m "Update Release Version -- CI"
+    - git push -u origin main
+  extends:
+    - .apps
+    - .deployment
+  artifacts:
+    paths:
+      - aquila-app/*/build/outputs/apk/debug/*.apk
+      - aquila-app/*/build/outputs/apk/release/*.apk
+    expire_in: 1 month
+
+loaderAppPublish:
+  stage: application-deploy
+  script:
+    - ./gradlew app-loader:assemble app-loader:publish
+  after_script:
+    - git remote set-url origin https://${GITLAB_USER_LOGIN}:${GIT_TOKEN}@gitlab.com/kiliankra/aquila.git
+    - git config --global user.email ${GITLAB_USER_EMAIL}
+    - git config --global user.name ${GITLAB_USER_NAME}
+    - git checkout -B main
+    - git add aquila-app/app-android/version.properties
     - git commit -m "Update Release Version -- CI"
     - git push -u origin main
   extends:
