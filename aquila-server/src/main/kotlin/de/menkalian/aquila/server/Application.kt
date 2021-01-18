@@ -18,4 +18,11 @@ fun Application.module() {
         json()
     }
 
+    registerRoutes()
+}
+
+fun Application.registerRoutes() {
+    routing {
+        versionRoutes()
+    }
 }
