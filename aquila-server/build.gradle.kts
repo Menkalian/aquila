@@ -1,9 +1,11 @@
 plugins {
     java
-    kotlin("jvm") version "1.4.21"
-    `maven-publish`
     application
+    `maven-publish`
+    kotlin("jvm") version "1.4.21"
+    kotlin("plugin.serialization") version "1.4.21"
     id("com.github.johnrengelman.shadow") version "2.0.1"
+    id("de.menkalian.auriga") version "1.0.1"
 }
 
 group = "de.menkalian.aquila"
@@ -14,14 +16,20 @@ application.mainClass.set("de.menkalian.aquila.server.ApplicationKt")
 repositories {
     jcenter()
     mavenCentral()
+    maven {
+        url = uri("https://kotlin.bintray.com/kotlinx")
+    }
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation(ktor("server-core"))
-    implementation(ktor("server-tomcat"))
+    implementation(ktor("server-netty"))
     implementation(ktor("serialization"))
+    implementation(ktor("client-cio"))
+    implementation(ktor("client-serialization"))
+    implementation("ch.qos.logback:logback-classic:1.2.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
 }
 
 publishing {
