@@ -35,7 +35,7 @@ androidLibsPublish:
   stage: application-deploy
   script:
     - ./gradlew assemble
-    - ./gradlew lib-client:publish
+    - ./gradlew lib-client:publish lib-game:publish
   extends:
     - .apps
     - .deployment
