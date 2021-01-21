@@ -1,8 +1,9 @@
 plugins {
     id("com.android.library")
-    kotlin("android")
-    `maven-publish`
     id("de.menkalian.auriga")
+    kotlin("android")
+    kotlin("plugin.serialization") version "1.4.21"
+    `maven-publish`
 }
 
 android {
@@ -32,12 +33,15 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            resValue("string", "aquila_server_url", "https://10.0.0.2:8083")
+        }
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-                         )
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             signingConfig = signingConfigs.findByName("release")!!
 
             resValue("string", "aquila_server_url", "https://server.menkalian.de:8083")
@@ -89,4 +93,11 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.appcompat:appcompat:1.2.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
+
+    implementation("io.ktor:ktor-client-android:1.5.0")
+    implementation("io.ktor:ktor-client-serialization:1.5.0")
 }
