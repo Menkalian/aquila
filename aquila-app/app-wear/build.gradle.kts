@@ -46,11 +46,18 @@ android {
             signingConfig = signingConfigs.findByName("release")!!
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 auriga {
     loggingConfig {
-        mode = "DEFAULT_ON"
+        mode = "DEFAULT_OFF"
     }
 }
 
@@ -90,4 +97,10 @@ dependencies {
     compileOnly("com.google.android.wearable:wearable:2.8.1")
 
     implementation(project(":lib-client"))
+    implementation(project(":lib-game"))
+
+    // Include all games as dependency
+    for (proj in rootProject.subprojects.filter { it.name.startsWith("game-") }) {
+        implementation(proj)
+    }
 }

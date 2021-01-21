@@ -39,13 +39,22 @@ android {
                     "proguard-rules.pro"
                          )
             signingConfig = signingConfigs.findByName("release")!!
+
+            resValue("string", "aquila_server_url", "https://server.menkalian.de:8083")
         }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
 auriga {
     loggingConfig {
-        mode = "DEFAULT_ON"
+        mode = "DEFAULT_OFF"
     }
 }
 

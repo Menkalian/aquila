@@ -54,7 +54,7 @@ android {
 
 auriga {
     loggingConfig {
-        mode = "DEFAULT_ON"
+        mode = "DEFAULT_OFF"
     }
 }
 
