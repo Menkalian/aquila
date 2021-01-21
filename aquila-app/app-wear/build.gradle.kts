@@ -89,11 +89,21 @@ afterEvaluate {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
+    // Kotlin
     implementation(kotlin("stdlib"))
-    implementation("com.google.android.support:wearable:2.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
+
+    // Android Libs
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.activity:activity-ktx:1.1.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+
+    // Wear OS Libs
     implementation("androidx.wear:wear:1.1.0")
+    implementation("com.google.android.support:wearable:2.8.1")
     compileOnly("com.google.android.wearable:wearable:2.8.1")
 
     implementation(project(":lib-client"))

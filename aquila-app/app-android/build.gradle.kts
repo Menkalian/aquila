@@ -89,12 +89,27 @@ afterEvaluate {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
+    // Kotlin
     implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
+
+    // Android Libs
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.activity:activity-ktx:1.1.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 
+    // Own Libs
     implementation(project(":lib-client"))
+    implementation(project(":lib-game"))
+
+    // Include all games as dependency
+    for (proj in rootProject.subprojects.filter { it.name.startsWith("game-") }) {
+        implementation(proj)
+    }
 
     debugWearApp(project(path = ":app-wear", configuration = "debug"))
     releaseWearApp(project(path = ":app-wear", configuration = "default"))
