@@ -7,7 +7,7 @@ plugins {
     kotlin("jvm") version "1.4.21"
     kotlin("plugin.serialization") version "1.4.21"
     id("com.github.johnrengelman.shadow") version "5.2.0"
-    id("de.menkalian.auriga") version "1.0.1"
+    id("de.menkalian.auriga") version "1.0.2"
 }
 
 group = "de.menkalian.aquila"
