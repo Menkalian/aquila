@@ -34,6 +34,10 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            applicationIdSuffix(".debug")
+            resValue("string", "app_name", "Aquila DBG_loader")
+        }
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
@@ -41,6 +45,7 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.findByName("release")!!
+            resValue("string", "app_name", "Aquila")
         }
     }
     compileOptions {
