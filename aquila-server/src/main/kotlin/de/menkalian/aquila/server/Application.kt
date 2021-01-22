@@ -7,6 +7,8 @@ import io.ktor.features.HttpsRedirect
 import io.ktor.routing.routing
 import io.ktor.serialization.json
 
+const val API_VERSION = "2.0"
+
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() {
