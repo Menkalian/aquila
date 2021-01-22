@@ -98,8 +98,9 @@ suspend fun getLatestVersion(target: String): String {
 
 @Suppress("DEPRECATION")
 suspend fun loadAndVerifyApk(target: String): File {
+    log.trace("Loading APK for '$target' [determining latest version]")
     val version = getLatestVersion(target)
-    log.debug("Loading APK for '$target' (version: '$target'")
+    log.debug("Loading APK for '$target' (version: '$version')")
 
     val client = HttpClient(CIO)
     val fileUrl = "$ARTIFACTORY_URL/$REPOSITORY/$ARTIFACT_LOCATION/app-$target/$version/app-$target-$version.zip"
