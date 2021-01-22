@@ -14,6 +14,12 @@ group = "de.menkalian.aquila"
 version = "1.0.0"
 setProperty("mainClassName", "de.menkalian.aquila.server.ApplicationKt")
 
+auriga {
+    loggingConfig {
+        mode = "DEFAULT_OFF"
+    }
+}
+
 repositories {
     jcenter()
     mavenCentral()
