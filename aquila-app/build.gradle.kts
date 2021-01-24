@@ -12,6 +12,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:4.1.2")
         classpath(kotlin("gradle-plugin", version = "1.4.21"))
         classpath("de.menkalian.auriga:auriga-gradle-plugin:1.0.2")
+        classpath("de.menkalian.vela:background-generator-gradle-plugin:1.0.0")
     }
 }
 

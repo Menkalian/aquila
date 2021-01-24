@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     `maven-publish`
     id("de.menkalian.auriga")
+    id("de.menkalian.vela.background")
 }
 
 apply(from = rootProject.file("versioning.gradle.kts"))
@@ -54,6 +55,26 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+backgrounds {
+    backgrounds {
+        register("aquila_background_menu") {
+            backgroundBaseColor = "@color/menu_base_background"
+
+            foregroundObjectsShape = "star"
+            foregroundObjectsColor = "@color/menu_base_stars"
+            foregroundObjectsAmount = 50
+            foregroundObjectsSizeRange = 1..5
+
+            sizeAnimation {
+                scaleFactor = 2..4
+                durationRange = 300..1500
+                repeat = true
+                repeatMode = "reverse"
+            }
+        }
     }
 }
 

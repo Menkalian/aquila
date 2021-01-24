@@ -3,9 +3,30 @@ plugins {
     kotlin("android")
     `maven-publish`
     id("de.menkalian.auriga")
+    id("de.menkalian.vela.background")
 }
 
 apply(from = rootProject.file("versioning.gradle.kts"))
+
+backgrounds {
+    backgrounds {
+        register("aquila_background_menu") {
+            backgroundBaseColor = "@color/menu_base_background"
+
+            foregroundObjectsShape = "star"
+            foregroundObjectsColor = "@color/menu_base_stars"
+            foregroundObjectsAmount = 50
+            foregroundObjectsSizeRange = 1..5
+
+            sizeAnimation {
+                scaleFactor = 2..4
+                durationRange = 300..1500
+                repeat = true
+                repeatMode = "reverse"
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion(30)
@@ -41,9 +62,9 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                         )
             signingConfig = signingConfigs.findByName("release")!!
             resValue("string", "app_name", "Aquila")
         }
