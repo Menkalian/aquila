@@ -19,6 +19,7 @@ default:
       - main
 
 include:
+  - local: ci-configs/aquila_api.yml
   - local: ci-configs/aquila_config.yml
   - local: ci-configs/aquila_server.yml
   - local: ci-configs/aquila_apps.yml

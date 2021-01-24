@@ -1,0 +1,40 @@
+.api:
+  before_script:
+    - cd aquila-api
+  cache:
+    key: aquila-api
+    paths:
+      - aquila-api/.gradle
+  except:
+    changes:
+      - aquila-app/*/version.properties
+
+apiBuild:
+  stage: lib-build
+  script:
+    - gradle publishToMavenLocal
+  extends:
+    - .api
+  artifacts:
+    paths:
+      - aquila-api/build
+    expire_in: 1 week
+
+apiTest:
+  stage: lib-test
+  script:
+    - gradle test
+  extends:
+    - .api
+
+apiPublish:
+  stage: lib-deploy
+  script:
+    - gradle publish
+  extends:
+    - .api
+    - .deployment
+  artifacts:
+    paths:
+      - aquila-api/build/libs/*.jar
+    expire_in: 1 month
