@@ -10,10 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.core.content.FileProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
@@ -74,6 +71,7 @@ class MainActivity : ComponentActivity() {
                         8 -> getString(R.string.aquila_loading_string_8)
                         else -> getString(R.string.aquila_loading_string_9)
                     }
+                    delay(10000)
                 }
             }
         }
