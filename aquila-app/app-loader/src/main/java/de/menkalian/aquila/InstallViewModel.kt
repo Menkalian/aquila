@@ -9,7 +9,8 @@ import java.io.File
 class InstallViewModel(application: Application) : AndroidViewModel(application) {
     private val client = AquilaClient("android", BuildConfig.VERSION_NAME, application)
 
-    suspend fun isApiCompatible(): Boolean = client.getApiCompatibility() != VersionCompatibility.INCOMPATIBLE
+    suspend fun isApiCompatible(): Boolean =
+        client.getApiCompatibility() != VersionCompatibility.INCOMPATIBLE
 
     suspend fun prepareUpdate(): File = client.prepareUpdate()
 }
