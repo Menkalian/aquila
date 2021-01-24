@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="aquila_api_incompatible">API ist inkompatible. Bitte lade eine neuere Version herunter um fortfahren zu können.</string>
     <string name="aquila_update_confirm">Fortsetzen</string>
     <string name="aquila_update_cancel">Abbrechen</string>
     <string name="aquila_loading_string_0">Sterne ausrichten…</string>

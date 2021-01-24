@@ -1,4 +1,5 @@
 <resources>
+    <string name="aquila_api_incompatible">API is incompatible. Please download a newer version if you want to proceed.</string>
     <string name="aquila_update_ready">Update is ready for installation. Please grant all needed permissions and allow the installation. If you do not want to grant that permission you have to install all updates manually.</string>
     <string name="aquila_update_confirm">Continue</string>
     <string name="aquila_update_cancel">Cancel</string>

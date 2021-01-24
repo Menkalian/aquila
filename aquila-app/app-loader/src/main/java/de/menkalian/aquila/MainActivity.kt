@@ -14,8 +14,8 @@ import kotlinx.coroutines.*
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
-    val installViewModel: InstallViewModel by viewModels()
-    lateinit var stringUpdateJob: Job
+    private val installViewModel: InstallViewModel by viewModels()
+    private lateinit var stringUpdateJob: Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                 val updateApk = installViewModel.prepareUpdate()
                 AlertDialog.Builder(this@MainActivity)
                     .setMessage(R.string.aquila_update_ready)
-                    .setPositiveButton(getString(R.string.aquila_update_confirm)) { _, _ ->
+                    .setPositiveButton(R.string.aquila_update_confirm) { _, _ ->
                         val installIntent = Intent(Intent.ACTION_VIEW)
                         installIntent.setDataAndType(
                             FileProvider.getUriForFile(
@@ -49,8 +49,8 @@ class MainActivity : ComponentActivity() {
                     }.show()
             } else {
                 AlertDialog.Builder(this@MainActivity)
-                    .setMessage("API is incompatible\n Please download a newer version!")
-                    .setPositiveButton("Ok") { _, _ ->
+                    .setMessage(R.string.aquila_api_incompatible)
+                    .setPositiveButton(R.string.aquila_update_confirm) { _, _ ->
                         this@MainActivity.finishAffinity()
                     }.show()
             }
