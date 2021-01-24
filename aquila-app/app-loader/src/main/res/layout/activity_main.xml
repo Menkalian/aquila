@@ -21,7 +21,7 @@
         android:indeterminateDrawable="@drawable/colored_circle" />
 
     <TextView
-        android:id="@+id/loading_text_empty"
+        android:id="@+id/loading_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/aquila_logo"

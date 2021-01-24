@@ -1,2 +1,15 @@
 <resources>
+    <string name="aquila_update_ready">Update is ready for installation. Please grant all needed permissions and allow the installation. If you do not want to grant that permission you have to install all updates manually.</string>
+    <string name="aquila_update_confirm">Continue</string>
+    <string name="aquila_update_cancel">Cancel</string>
+    <string name="aquila_loading_string_0">Aligning stars…</string>
+    <string name="aquila_loading_string_1">Finding constellations…</string>
+    <string name="aquila_loading_string_2">Moving solarsystems…</string>
+    <string name="aquila_loading_string_3">Accelerating photons…</string>
+    <string name="aquila_loading_string_4">Connecting warppoints…</string>
+    <string name="aquila_loading_string_5">Loading maps…</string>
+    <string name="aquila_loading_string_6">Rotating galaxies…</string>
+    <string name="aquila_loading_string_7">Extracting spectra…</string>
+    <string name="aquila_loading_string_8">Energizing stars…</string>
+    <string name="aquila_loading_string_9">Aligning planets…</string>
 </resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aquila_update_confirm">Fortsetzen</string>
+    <string name="aquila_update_cancel">Abbrechen</string>
+    <string name="aquila_loading_string_0">Sterne ausrichten…</string>
+    <string name="aquila_update_ready">Ein Update ist verfügbar! Bitte erteile alle nötigen Berechtigungen um automatische Updates zu ermöglichen. Sollten diese Berechtigungen nicht erteilt werden, so müssen alle Updates manuell installiert werden.</string>
+    <string name="aquila_loading_string_1">Suche Sternbilder…</string>
+    <string name="aquila_loading_string_2">Plaziere Sonnensysteme…</string>
+    <string name="aquila_loading_string_3">Beschleunige Photonen…</string>
+    <string name="aquila_loading_string_4">Verbinde Warptore…</string>
+    <string name="aquila_loading_string_5">Lade Sternkarten…</string>
+    <string name="aquila_loading_string_6">Beschleunige Galaxien…</string>
+    <string name="aquila_loading_string_7">Analyziere Lichtspektren…</string>
+    <string name="aquila_loading_string_8">Lade Sternenenergie…</string>
+    <string name="aquila_loading_string_9">Richte Planeten aus…</string>
+</resources>
