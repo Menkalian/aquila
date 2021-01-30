@@ -1,8 +1,7 @@
 @file:Suppress("unused")
 
-package de.menkalian.aquila
+package de.menkalian.aquila.api
 
-import de.menkalian.aquila.api.TransferableValue
 import de.menkalian.vela.generated.AquilaKey.Aquila
 import kotlinx.serialization.Serializable
 import java.time.Instant

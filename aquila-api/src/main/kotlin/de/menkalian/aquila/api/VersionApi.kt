@@ -1,4 +1,4 @@
-package de.menkalian.aquila
+package de.menkalian.aquila.api
 
 import kotlinx.serialization.Serializable
 
