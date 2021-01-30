@@ -1,0 +1,11 @@
+Aquila
+  Websocket
+    Message
+      Topic
+      Timestamp
+  Player
+    Personal
+      Name
+    System
+      UUID
+      SHA512

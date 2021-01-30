@@ -3,6 +3,7 @@ plugins {
     `maven-publish`
     kotlin("jvm") version "1.4.21"
     kotlin("plugin.serialization") version "1.4.21"
+    id("de.menkalian.vela.keygen") version "1.1.0"
 }
 
 group = "de.menkalian.aquila"
@@ -20,6 +21,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.1")
 }
 
 publishing {
