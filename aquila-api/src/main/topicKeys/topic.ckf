@@ -1,0 +1,8 @@
+lobby
+  __TOKEN__
+    system
+    __UUID__
+    game
+      messages
+        __UUID__
+        server

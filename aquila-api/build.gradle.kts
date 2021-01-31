@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
     kotlin("jvm") version "1.4.21"
     kotlin("plugin.serialization") version "1.4.21"
-    id("de.menkalian.vela.keygen") version "1.1.0"
+    id("de.menkalian.vela.keygen") version "1.2.0"
 }
 
 group = "de.menkalian.aquila"
@@ -15,6 +15,20 @@ repositories {
     jcenter()
     maven {
         url = uri("https://kotlin.bintray.com/kotlinx")
+    }
+}
+
+keygen {
+    targetDir = File(buildDir, "generated/vela/keyobject/values/java").toURI()
+
+    furtherConfigs {
+        create("topics") {
+            sourceDir = File(projectDir, "src/main/topicKeys").toURI()
+            targetDir = File(buildDir, "generated/vela/keyobject/topics/java").toURI()
+
+            separator = "/"
+            targetPackage = "de.menkalian.aquila.api.websocket.topics"
+        }
     }
 }
 
