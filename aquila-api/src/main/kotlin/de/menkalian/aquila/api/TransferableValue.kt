@@ -26,6 +26,13 @@ data class TransferableValue(val type: ConfigValueType, var value: String) {
             return false
         }
     }
+
+    fun asString() = value
+    fun asInt() = value.toInt()
+    fun asLong() = value.toLong()
+    fun asBool() = value.toBoolean()
+    fun asFloat() = value.toFloat()
+    fun asDouble() = value.toDouble()
 }
 
 enum class ConfigValueType {
