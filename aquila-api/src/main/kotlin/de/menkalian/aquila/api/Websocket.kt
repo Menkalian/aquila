@@ -3,7 +3,10 @@
 package de.menkalian.aquila.api
 
 import de.menkalian.vela.generated.AquilaKey.Aquila
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.cbor.Cbor
+import kotlinx.serialization.encodeToByteArray
 import java.time.Instant
 
 @Serializable
@@ -14,6 +17,10 @@ enum class FrameType {
 @Serializable
 abstract class Frame(val type: FrameType) {
     val messageVariables: HashMap<String, TransferableValue> = HashMap()
+
+    @OptIn(ExperimentalSerializationApi::class)
+    fun toKtorFrame() : io.ktor.http.cio.websocket.Frame =
+        io.ktor.http.cio.websocket.Frame.Binary(true, Cbor.encodeToByteArray(this))
 }
 
 @Serializable

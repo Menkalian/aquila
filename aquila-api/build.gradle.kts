@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.menkalian.aquila"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -32,10 +32,18 @@ keygen {
     }
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).configureEach {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
+    }
+}
+
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.1")
+
+    compileOnly("io.ktor:ktor-http-cio-jvm:1.5.0")
 }
 
 publishing {
