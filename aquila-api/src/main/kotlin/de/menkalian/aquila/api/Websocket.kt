@@ -20,7 +20,7 @@ abstract class Frame(val type: FrameType) {
     val messageVariables: HashMap<String, TransferableValue> = HashMap()
 
     @OptIn(ExperimentalSerializationApi::class)
-    fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
+    open fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
         io.ktor.http.cio.websocket.Frame.Binary(true, Cbor.encodeToByteArray(this))
 
     companion object {
@@ -41,6 +41,10 @@ class HeartbeatFrame : Frame(FrameType.HEARTBEAT) {
         messageVariables[Aquila.Websocket.Message.Timestamp.toString()] = TransferableValue(ts)
         return this
     }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
+        io.ktor.http.cio.websocket.Frame.Binary(true, Cbor.encodeToByteArray(this))
 }
 
 @Serializable
@@ -53,6 +57,10 @@ class SubscribeFrame : Frame(FrameType.SUBSCRIBE) {
         messageVariables[Aquila.Websocket.Message.Topic.toString()] = TransferableValue(topic)
         return this
     }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
+        io.ktor.http.cio.websocket.Frame.Binary(true, Cbor.encodeToByteArray(this))
 }
 
 @Serializable
@@ -66,4 +74,8 @@ class MessageFrame : Frame(FrameType.MESSAGE) {
         messageVariables[key] = value
         return this
     }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
+        io.ktor.http.cio.websocket.Frame.Binary(true, Cbor.encodeToByteArray(this))
 }
