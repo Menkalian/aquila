@@ -16,11 +16,11 @@ enum class FrameType {
 }
 
 @Serializable
-abstract class Frame(val type: FrameType) {
+class Frame(val type: FrameType) {
     val messageVariables: HashMap<String, TransferableValue> = HashMap()
 
     @OptIn(ExperimentalSerializationApi::class)
-    open fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
+    fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
         io.ktor.http.cio.websocket.Frame.Binary(true, Cbor.encodeToByteArray(this))
 
     companion object {
@@ -28,54 +28,29 @@ abstract class Frame(val type: FrameType) {
         fun fromKtorFrame(input: io.ktor.http.cio.websocket.Frame): Frame =
             Cbor { ignoreUnknownKeys = true }
                 .decodeFromByteArray(input.data)
-    }
-}
 
-@Serializable
-class HeartbeatFrame : Frame(FrameType.HEARTBEAT) {
-    init {
-        messageVariables[Aquila.Websocket.Message.Timestamp.toString()] = TransferableValue(Instant.now().toEpochMilli())
+        fun newHeartbeat() =
+            Frame(FrameType.HEARTBEAT).setTimestamp(Instant.now().toEpochMilli())
+
+        fun newSubscription(topic: String) =
+            Frame(FrameType.HEARTBEAT).setTopic(topic)
+
+        fun newMessage(topic: String) =
+            Frame(FrameType.HEARTBEAT).setTopic(topic)
     }
 
-    fun setTimestamp(ts: Long): HeartbeatFrame {
+    fun setTimestamp(ts: Long): Frame {
         messageVariables[Aquila.Websocket.Message.Timestamp.toString()] = TransferableValue(ts)
         return this
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
-    override fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
-        io.ktor.http.cio.websocket.Frame.Binary(true, Cbor.encodeToByteArray(this))
-}
-
-@Serializable
-class SubscribeFrame : Frame(FrameType.SUBSCRIBE) {
-    init {
-        messageVariables[Aquila.Websocket.Message.Topic.toString()] = TransferableValue("")
-    }
-
-    fun setTopic(topic: String): SubscribeFrame {
+    fun setTopic(topic: String): Frame {
         messageVariables[Aquila.Websocket.Message.Topic.toString()] = TransferableValue(topic)
         return this
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
-    override fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
-        io.ktor.http.cio.websocket.Frame.Binary(true, Cbor.encodeToByteArray(this))
-}
-
-@Serializable
-class MessageFrame : Frame(FrameType.MESSAGE) {
-    fun setTopic(topic: String): MessageFrame {
-        messageVariables[Aquila.Websocket.Message.Topic.toString()] = TransferableValue(topic)
-        return this
-    }
-
-    fun addValue(key: String, value: TransferableValue): MessageFrame {
+    fun addValue(key: String, value: TransferableValue): Frame {
         messageVariables[key] = value
         return this
     }
-
-    @OptIn(ExperimentalSerializationApi::class)
-    override fun toKtorFrame(): io.ktor.http.cio.websocket.Frame =
-        io.ktor.http.cio.websocket.Frame.Binary(true, Cbor.encodeToByteArray(this))
 }
