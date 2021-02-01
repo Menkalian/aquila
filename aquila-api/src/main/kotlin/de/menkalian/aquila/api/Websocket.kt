@@ -33,10 +33,10 @@ class Frame(val type: FrameType) {
             Frame(FrameType.HEARTBEAT).setTimestamp(Instant.now().toEpochMilli())
 
         fun newSubscription(topic: String) =
-            Frame(FrameType.HEARTBEAT).setTopic(topic)
+            Frame(FrameType.SUBSCRIBE).setTopic(topic)
 
         fun newMessage(topic: String) =
-            Frame(FrameType.HEARTBEAT).setTopic(topic)
+            Frame(FrameType.MESSAGE).setTopic(topic)
     }
 
     fun setTimestamp(ts: Long): Frame {
