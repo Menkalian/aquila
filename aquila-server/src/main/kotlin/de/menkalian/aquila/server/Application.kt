@@ -4,8 +4,12 @@ import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.HttpsRedirect
+import io.ktor.http.cio.websocket.pingPeriod
+import io.ktor.http.cio.websocket.timeout
 import io.ktor.routing.routing
 import io.ktor.serialization.json
+import io.ktor.websocket.WebSockets
+import java.time.Duration
 
 const val API_VERSION = "2.0"
 
@@ -19,6 +23,10 @@ fun Application.module() {
     install(ContentNegotiation) {
         json()
     }
+    install(WebSockets) {
+        pingPeriod = Duration.ofSeconds(5)
+        timeout = Duration.ofSeconds(60)
+    }
 
     registerRoutes()
 }
@@ -26,5 +34,6 @@ fun Application.module() {
 fun Application.registerRoutes() {
     routing {
         versionRoutes()
+        websocketRoutes()
     }
 }
