@@ -17,6 +17,11 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused")
 fun Application.module() {
+    installComponents()
+    registerRoutes()
+}
+
+fun Application.installComponents() {
     install(HttpsRedirect) {
         sslPort = 8083
         permanentRedirect = false
@@ -28,8 +33,6 @@ fun Application.module() {
         pingPeriod = Duration.ofSeconds(5)
         timeout = Duration.ofSeconds(60)
     }
-
-    registerRoutes()
 }
 
 fun Application.registerRoutes() {
