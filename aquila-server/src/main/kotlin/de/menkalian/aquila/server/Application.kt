@@ -15,6 +15,7 @@ const val API_VERSION = "2.0"
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+@Suppress("unused")
 fun Application.module() {
     install(HttpsRedirect) {
         sslPort = 8083
