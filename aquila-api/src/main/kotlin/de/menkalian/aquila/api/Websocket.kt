@@ -27,7 +27,7 @@ class Frame(val type: FrameType) {
         @OptIn(ExperimentalSerializationApi::class)
         fun fromKtorFrame(input: io.ktor.http.cio.websocket.Frame): Frame =
             Cbor { ignoreUnknownKeys = true }
-                .decodeFromByteArray(input.data)
+                .decodeFromByteArray(input.buffer.array())
 
         fun newHeartbeat() =
             Frame(FrameType.HEARTBEAT).setTimestamp(Instant.now().toEpochMilli())
