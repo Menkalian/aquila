@@ -9,10 +9,10 @@ import kotlinx.serialization.Serializable
 /**
  * Class representing a player. Most values are held within the settings map.
  * Some important values for this are:
- * Aquila.Player.Personal.Name -> Name of the player
- * Aquila.Player.System.UUID -> UUID of the player
- * Aquila.Player.System.SHA512 -> Hashed combination from UUID and secret Token. Used to authenticate the client
- * Aquila.Player.System.OTID -> One-Time ID; set at login. Expires after 12h or on logout
+ * - Aquila.Player.Personal.Name -> Name of the player
+ * - Aquila.Player.System.UUID -> UUID of the player
+ * - Aquila.Player.System.SHA512 -> Hashed combination from UUID and secret Token. Used to authenticate the client
+ * - Aquila.Player.System.OTID -> One-Time ID; set at login. Expires after 12h or on logout
  */
 @Serializable
 data class Player(val uuid: String, var state: PlayerState, val settings: HashMap<String, TransferableValue>) {
