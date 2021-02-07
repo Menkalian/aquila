@@ -7,7 +7,6 @@
     key: aqula-app
     paths:
       - aquila-app/.gradle
-      - ~/.gradle/*
   except:
     changes:
       - aquila-app/*/version.properties
