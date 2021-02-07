@@ -21,6 +21,9 @@ data class Player(val uuid: String, var state: PlayerState, val settings: HashMa
     }
 }
 
+@Serializable
+data class PlayerSettingChange(val otid: String, val token: ByteArray, val key: String, val value: TransferableValue)
+
 enum class PlayerState {
     LOGOUT, IDLE, LOBBY, IN_GAME, POST_GAME
 }
