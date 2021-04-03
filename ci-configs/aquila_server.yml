@@ -1,6 +1,7 @@
 .server:
   before_script:
     - cd aquila-server
+    - chmod +x gradlew
   cache:
     key: aquila-server
     paths:
@@ -12,7 +13,7 @@
 serverBuild:
   stage: application-build
   script:
-    - gradle shadowJar publishToMavenLocal
+    - ./gradlew shadowJar publishToMavenLocal
   extends:
     - .server
   artifacts:
@@ -23,14 +24,14 @@ serverBuild:
 serverTest:
   stage: application-test
   script:
-    - gradle test
+    - ./gradlew test
   extends:
     - .server
 
 serverPublish:
   stage: application-deploy
   script:
-    - gradle publish
+    - ./gradlew publish
   extends:
     - .server
     - .deployment

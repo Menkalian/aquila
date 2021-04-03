@@ -1,6 +1,7 @@
 .api:
   before_script:
     - cd aquila-api
+    - chmod +x gradlew
   cache:
     key: aquila-api
     paths:
@@ -12,7 +13,7 @@
 apiBuild:
   stage: lib-build
   script:
-    - gradle publishToMavenLocal
+    - ./gradlew publishToMavenLocal
   extends:
     - .api
   artifacts:
@@ -23,14 +24,14 @@ apiBuild:
 apiTest:
   stage: lib-test
   script:
-    - gradle test
+    - ./gradlew test
   extends:
     - .api
 
 apiPublish:
   stage: lib-deploy
   script:
-    - gradle publish
+    - ./gradlew publish
   extends:
     - .api
     - .deployment

@@ -1,5 +1,6 @@
 package de.menkalian.aquila.server
 
+import de.menkalian.aquila.api.Response
 import de.menkalian.aquila.util.InvalidChecksumException
 import de.menkalian.aquila.util.sha512
 import de.menkalian.aquila.util.unzip
@@ -72,7 +73,7 @@ fun Route.versionRoutes() {
         } catch (e: InvalidChecksumException) {
             log.warn("APK is not verified! File is not being delivered.")
             call.response.status(HttpStatusCode.InternalServerError)
-            call.respond(de.menkalian.aquila.util.Error("Checksum of APK not verified. Please retry or contact the server owner!", 10))
+            call.respond(Response(false, 10, "Checksum of APK not verified. Please retry or contact the server owner!"))
         }
     }
 }

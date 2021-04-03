@@ -1,6 +1,7 @@
 .config:
   before_script:
     - cd aquila-config
+    - chmod +x gradlew
   cache:
     key: aquila-config
     paths:
@@ -12,7 +13,7 @@
 configBuild:
   stage: lib-build
   script:
-    - gradle publishToMavenLocal
+    - ./gradlew publishToMavenLocal
   extends:
     - .config
   artifacts:
@@ -23,14 +24,14 @@ configBuild:
 configTest:
   stage: lib-test
   script:
-    - gradle test
+    - ./gradlew test
   extends:
     - .config
 
 configPublish:
   stage: lib-deploy
   script:
-    - gradle publish
+    - ./gradlew publish
   extends:
     - .config
     - .deployment

@@ -16,7 +16,7 @@ enum class FrameType {
 }
 
 @Serializable
-abstract class Frame(val type: FrameType) {
+class Frame(val type: FrameType) {
     val messageVariables: HashMap<String, TransferableValue> = HashMap()
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -27,42 +27,29 @@ abstract class Frame(val type: FrameType) {
         @OptIn(ExperimentalSerializationApi::class)
         fun fromKtorFrame(input: io.ktor.http.cio.websocket.Frame): Frame =
             Cbor { ignoreUnknownKeys = true }
-                .decodeFromByteArray(input.data)
-    }
-}
+                .decodeFromByteArray(input.buffer.array())
 
-@Serializable
-class HeartbeatFrame : Frame(FrameType.HEARTBEAT) {
-    init {
-        messageVariables[Aquila.Websocket.Message.Timestamp.toString()] = TransferableValue(Instant.now().toEpochMilli())
+        fun newHeartbeat() =
+            Frame(FrameType.HEARTBEAT).setTimestamp(Instant.now().toEpochMilli())
+
+        fun newSubscription(topic: String) =
+            Frame(FrameType.SUBSCRIBE).setTopic(topic)
+
+        fun newMessage(topic: String) =
+            Frame(FrameType.MESSAGE).setTopic(topic)
     }
 
-    fun setTimestamp(ts: Long): HeartbeatFrame {
+    fun setTimestamp(ts: Long): Frame {
         messageVariables[Aquila.Websocket.Message.Timestamp.toString()] = TransferableValue(ts)
         return this
     }
-}
 
-@Serializable
-class SubscribeFrame : Frame(FrameType.SUBSCRIBE) {
-    init {
-        messageVariables[Aquila.Websocket.Message.Topic.toString()] = TransferableValue("")
-    }
-
-    fun setTopic(topic: String): SubscribeFrame {
-        messageVariables[Aquila.Websocket.Message.Topic.toString()] = TransferableValue(topic)
-        return this
-    }
-}
-
-@Serializable
-class MessageFrame : Frame(FrameType.MESSAGE) {
-    fun setTopic(topic: String): MessageFrame {
+    fun setTopic(topic: String): Frame {
         messageVariables[Aquila.Websocket.Message.Topic.toString()] = TransferableValue(topic)
         return this
     }
 
-    fun addValue(key: String, value: TransferableValue): MessageFrame {
+    fun addValue(key: String, value: TransferableValue): Frame {
         messageVariables[key] = value
         return this
     }

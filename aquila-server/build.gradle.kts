@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
@@ -26,17 +27,28 @@ repositories {
     maven {
         url = uri("https://kotlin.bintray.com/kotlinx")
     }
+    mavenLocal()
+    maven {
+        url = uri("http://server.menkalian.de:8081/artifactory/aquila")
+        name = "artifactory-menkalian"
+    }
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
+
     implementation(ktor("server-core"))
     implementation(ktor("server-netty"))
     implementation(ktor("serialization"))
+    implementation(ktor("websockets"))
     implementation(ktor("client-cio"))
     implementation(ktor("client-serialization"))
+
     implementation("ch.qos.logback:logback-classic:1.2.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
+    implementation("de.menkalian.aquila:aquila-api:1.0.2")
 }
 
 publishing {
@@ -59,10 +71,16 @@ publishing {
     }
 }
 
-tasks.getByName<ShadowJar>("shadowJar"){
+tasks.getByName<ShadowJar>("shadowJar") {
     archiveBaseName.set("aquila-server")
     archiveClassifier.set("")
     archiveVersion.set("")
+}
+
+tasks.withType(KotlinCompile::class.java).configureEach {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
+    }
 }
 
 fun ktor(module: String, version: String = "1.5.0"): String = "io.ktor:ktor-$module:$version"
