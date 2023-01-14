@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<aquila-plugin>
+    <name>Quizpoker</name>
+    <id>de.menkalian.aquila.quizpoker</id>
+    <version>0.1.0</version>
+    <views>
+        <view>de.menkalian.aquila.quizpoker.view.MainView</view>
+        <view>de.menkalian.aquila.quizpoker.view.ResultView</view>
+    </views>
+    <controllers>
+        <controller>de.menkalian.aquila.quizpoker.controller.MainController</controller>
+        <controller>de.menkalian.aquila.quizpoker.controller.ResultController</controller>
+    </controllers>
+    <resources>
+        <database>de.menkalian.aquila.quizpoker.res.QuizpokerDatabase</database>
+        <!-- Additional API for managing the questions -->
+        <restapi>de.menkalian.aquila.quizpoker.res.QuizpokerRestController</restapi>
+    </resources>
+    <configuration>
+        <object name="Quizpoker">
+            <object name="Database">
+                <value name="Mirror" />
+            </object>
+        </object>
+    </configuration>
+    <state>
+        <global>
+            <object name="Quizpoker">
+                <array name="Player">
+                    <value name="Name" type="string" />
+                    <value name="Score" type="i64" />
+                    <value name="Active" type="bool" />
+                </array>
+                <object name="Question">
+                    <value name="Text" type="string" />
+                    <array name="Hint">
+                        <value name="Text" />
+                    </array>
+                </object>
+            </object>
+        </global>
+        <player>
+            <object name="Quizpoker">
+                <object name="Player">
+                    <value name="Guess" type="f64" />
+                </object>
+            </object>
+        </player>
+    </state>
+</aquila-plugin>

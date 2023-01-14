@@ -1,0 +1,115 @@
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <!--
+        The document contains a single element: the aquila-plugin tag.
+    -->
+    <xs:element name="aquila-plugin" type="AquilaPluginType" />
+
+    <!-- Basic structure of the plugin description -->
+    <xs:complexType name="AquilaPluginType">
+        <xs:sequence>
+            <!-- Readable name of the plugin. This should only be used for displaying the plugin. -->
+            <xs:element type="xs:string" name="name" />
+            <!-- Optional description of the plugin -->
+            <xs:element type="xs:string" name="description" minOccurs="0" />
+            <!-- UNIQUE id of the plugin. You have to ensure this is unique (e.g. by using a domain name, etc. -->
+            <xs:element type="xs:string" name="id" />
+            <!-- Semantic version of the plugin -->
+            <xs:element type="xs:string" name="version" />
+            <!-- List of the view classes in your plugin -->
+            <xs:element type="ViewsType" name="views" minOccurs="0" />
+            <!-- List of the controller classes in your plugin -->
+            <xs:element type="ControllersType" name="controllers" minOccurs="0" />
+            <!-- List of the managed resources your plugin requires -->
+            <xs:element type="ResourcesType" name="resources" minOccurs="0" />
+            <!-- List of configurable values to modify your plugins behaviour -->
+            <xs:element type="DataContainerType" name="configuration" minOccurs="0" />
+            <!-- Definition of synchronized state used by your plugin -->
+            <xs:element type="StateType" name="state" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- List of view classes -->
+    <xs:complexType name="ViewsType">
+        <xs:sequence>
+            <!-- Fully-qualified name of a class extending de.menkalian.aquila.View that controls what is shown to the user -->
+            <xs:element type="xs:string" name="view" maxOccurs="unbounded" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- List of controller classes -->
+    <xs:complexType name="ControllersType">
+        <xs:sequence>
+            <!-- Fully-qualified name of a class extending de.menkalian.aquila.Controller that implements business logic -->
+            <xs:element type="xs:string" name="controller" maxOccurs="unbounded" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- List of additional resources required by the plugin and managed by the server -->
+    <xs:complexType name="ResourcesType">
+        <xs:sequence>
+            <!-- Fully-qualified name of a class extending de.menkalian.aquila.Database which is used to manage persistent data -->
+            <xs:element type="xs:string" name="database" minOccurs="0" maxOccurs="unbounded" />
+            <!-- Fully-qualified name of a class extending de.menkalian.aquila.Restapi which is used to provide additional features with a REST interface -->
+            <xs:element type="xs:string" name="restapi" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Definition of state synchronized with the clients -->
+    <xs:complexType name="StateType">
+        <xs:sequence>
+            <!-- Globally synchronized state -->
+            <xs:element type="DataContainerType" name="global" />
+            <!-- Individual player state-->
+            <xs:element type="DataContainerType" name="player" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Definition of custom datatypes -->
+    <xs:complexType name="DataContainerType">
+        <xs:sequence>
+            <xs:element type="DataType" name="object" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element type="ArrayType" name="array" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element type="ValueType" name="value" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Definition of custom datatypes -->
+    <xs:complexType name="DataType">
+        <xs:sequence>
+            <xs:element type="DataType" name="object" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element type="ArrayType" name="array" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element type="ValueType" name="value" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="name" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="ArrayType">
+        <xs:sequence>
+            <xs:element type="DataType" name="object" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element type="ArrayType" name="array" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element type="ValueType" name="value" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="name" use="required" />
+    </xs:complexType>
+
+    <xs:simpleType name="ValueTypeEnumeration">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="byte" />
+            <xs:enumeration value="i32" />
+            <xs:enumeration value="i64" />
+            <xs:enumeration value="f32" />
+            <xs:enumeration value="f64" />
+            <xs:enumeration value="string" />
+            <xs:enumeration value="bool" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ValueType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="name" use="required" />
+                <xs:attribute type="ValueTypeEnumeration" name="type" use="required" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>

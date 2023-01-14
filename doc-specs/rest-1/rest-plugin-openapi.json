@@ -1,0 +1,728 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Aquila-Plugin-Portal",
+    "version" : "1.0.0",
+    "contact" : {
+      "name" : "Kilian Krampf",
+      "email" : "kilian@mail.menkalian.de",
+      "url" : "https://plugins.aquila.menkalian.de/contact"
+    },
+    "license" : {
+      "name" : "MIT",
+      "url" : "https://opensource.org/licenses/MIT"
+    },
+    "description" : "API for the Aquila Plugin-Portal Backend.\nAuthentication works via OAuth (with additional registration at the server).\nTHIS IS ONLY THE MINIMUM REQUIRED API! Individual implementations may expand upon this.",
+    "termsOfService" : "https://plugins.aquila.menkalian.de/terms"
+  },
+  "paths" : {
+    "/plugins/all" : {
+      "summary" : "Operations for all available plugins on the server",
+      "get" : {
+        "summary" : "List all plugins stored on the server",
+        "description" : "Retrieves and delivers a list of all plugins on the server.\nThis data may be paginated.\nTo retrieve further pages, use the parameters `limit` and `start`.\nThe maximum limit is decided by the server configuration.\nThe configuration can be retrieved by using the _getServerConfiguration_-Endpoint (`GET \"/server/config\"`).",
+        "parameters" : [
+          {
+            "name" : "limit",
+            "in" : "query",
+            "required" : false,
+            "schema" : {
+              "type" : "string",
+              "default" : "50"
+            },
+            "description" : "Maximum amount of results delievered in this query.",
+            "allowEmptyValue" : false
+          },
+          {
+            "name" : "start",
+            "in" : "query",
+            "required" : false,
+            "schema" : {
+              "type" : "string",
+              "default" : "0"
+            },
+            "description" : "starting index of the results (used for pagination)."
+          }
+        ],
+        "operationId" : "getAllPlugins",
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaginatedPluginData"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Malformed filter object (did not match schema)"
+          },
+          "404" : {
+            "description" : "No plugins with the supplied parameters found (start is out of bounds)"
+          },
+          "429" : {
+            "description" : "Rate limit reached (configurable for the instance)"
+          }
+        },
+        "tags" : [
+          "plugins"
+        ],
+        "security" : []
+      },
+      "post" : {
+        "summary" : "List all plugins stored on the server limited by the given filter object (POST)",
+        "description" : "Retrieves and delivers a list of all plugins on the server.\nThis data may be paginated.\nTo retrieve further pages, use the parameters `limit` and `start`.\nThe maximum limit is decided by the server configuration.\nThe configuration can be retrieved by using the _getServerConfiguration_-Endpoint (`GET \"/server/config\"`).",
+        "parameters" : [
+          {
+            "name" : "limit",
+            "in" : "query",
+            "required" : false,
+            "schema" : {
+              "type" : "string",
+              "default" : "50"
+            },
+            "description" : "Maximum amount of results delievered in this query.",
+            "allowEmptyValue" : false
+          },
+          {
+            "name" : "start",
+            "in" : "query",
+            "required" : false,
+            "schema" : {
+              "type" : "string",
+              "default" : "0"
+            },
+            "description" : "starting index of the results (used for pagination)."
+          }
+        ],
+        "operationId" : "filterAllPlugins",
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaginatedPluginData"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Malformed filter object (did not match schema)"
+          },
+          "404" : {
+            "description" : "No plugins with the supplied parameters found (start is out of bounds)"
+          },
+          "429" : {
+            "description" : "Rate limit reached"
+          }
+        },
+        "tags" : [
+          "plugins"
+        ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PluginFilterData"
+              }
+            }
+          },
+          "description" : "Filter to use for limiting the found plugins"
+        },
+        "security" : []
+      }
+    },
+    "/plugin/{id}/{version}" : {
+      "get" : {
+        "summary" : "Retrieves information about a plugin by name and version",
+        "description" : "",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "ID of the requested plugin"
+          },
+          {
+            "name" : "version",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Semantic version (MAJOR.MINOR.PATCH) of the requested plugin"
+          }
+        ],
+        "operationId" : "getPluginByIdAndVersion",
+        "responses" : {
+          "default" : {
+            "description" : "Default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PluginData"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [
+          "plugins"
+        ],
+        "security" : []
+      },
+      "summary" : "Operations for a specific plugin with a given version",
+      "post" : {
+        "summary" : "",
+        "description" : "",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "ID of the updated plugin"
+          },
+          {
+            "name" : "version",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Semantic version (MAJOR.MINOR.PATCH) of the updated plugin version"
+          }
+        ],
+        "operationId" : "updatePlugin",
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        },
+        "tags" : [
+          "plugins"
+        ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PluginData"
+              }
+            }
+          },
+          "description" : "New Plugin data (may not change id or version)."
+        }
+      },
+      "put" : {
+        "summary" : "Upload a new plugin",
+        "description" : "",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "ID of the updated plugin"
+          },
+          {
+            "name" : "version",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Semantic version (MAJOR.MINOR.PATCH) of the updated plugin version"
+          }
+        ],
+        "operationId" : "createPlugin",
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        },
+        "tags" : [
+          "plugins"
+        ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PluginUploadData"
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Archives this plugin",
+        "description" : "This plugin is removed from search results, but will STILL be available for download.",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "ID of the updated plugin"
+          },
+          {
+            "name" : "version",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Semantic version (MAJOR.MINOR.PATCH) of the updated plugin version"
+          }
+        ],
+        "operationId" : "archivePlugin",
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        },
+        "tags" : [
+          "plugins"
+        ]
+      }
+    },
+    "/user" : {
+      "summary" : "Operations regarding the user",
+      "get" : {
+        "summary" : "",
+        "description" : "",
+        "parameters" : [
+          {
+            "name" : "id",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "type" : "integer"
+            },
+            "description" : "ID of the updated plugin"
+          }
+        ],
+        "operationId" : "getUserById",
+        "responses" : {
+          "default" : {
+            "description" : "Default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserData"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [
+          "authentication"
+        ],
+        "security" : []
+      },
+      "post" : {
+        "summary" : "",
+        "description" : "",
+        "parameters" : [],
+        "operationId" : "updateCurrentUser",
+        "responses" : {
+          "default" : {
+            "description" : "Default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserData"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [
+          "authentication"
+        ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserUploadData"
+              }
+            }
+          },
+          "description" : "New data for the current user (id is not changeable and will be ignored)"
+        }
+      },
+      "put" : {
+        "summary" : "",
+        "description" : "",
+        "parameters" : [],
+        "operationId" : "createNewUser",
+        "responses" : {
+          "default" : {
+            "description" : "Default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserData"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [
+          "authentication"
+        ],
+        "requestBody" : {
+          "required" : false,
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserUploadData"
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Deletes current user",
+        "description" : "Deletes the current user and archives all associated plugins.\nThe associated plugins will be transferred to an annonymous account and no one will be able to change their data.",
+        "parameters" : [],
+        "operationId" : "deleteCurrentUser",
+        "responses" : {
+          "default" : {
+            "description" : "Default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "boolean"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [
+          "authentication"
+        ]
+      }
+    },
+    "/server/config" : {
+      "summary" : "Operations regarding the server configuration",
+      "get" : {
+        "summary" : "",
+        "description" : "",
+        "parameters" : [],
+        "operationId" : "getServerConfig",
+        "responses" : {
+          "default" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServerData"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [
+          "config"
+        ],
+        "security" : []
+      }
+    }
+  },
+  "externalDocs" : {
+    "url" : "https://docs.plugins.aquila.menkalian.de"
+  },
+  "security" : [
+    {
+      "googleOAuth" : []
+    }
+  ],
+  "servers" : [
+    {
+      "url" : "plugin.aquila.menkalian.de",
+      "description" : "production server with actual data",
+      "variables" : {}
+    },
+    {
+      "url" : "dev.plugin.aquila.menkalian.de",
+      "description" : "test server (for testing your integration with dummy data)"
+    },
+    {
+      "url" : "http://localhost:8080",
+      "description" : "local server for testing"
+    }
+  ],
+  "components" : {
+    "links" : {},
+    "callbacks" : {},
+    "schemas" : {
+      "UserData" : {
+        "type" : "object",
+        "required" : [
+          "userId",
+          "name"
+        ],
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "integer"
+          },
+          "avatarUrl" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UserUploadData" : {
+        "type" : "object",
+        "required" : [
+          "userId",
+          "name"
+        ],
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "integer"
+          },
+          "avatarData" : {
+            "type" : "array",
+            "description" : "Image data of the new avatar to use. If not present, the avatar should be deleted. If set to an empty array (len = 0), the current value remains unchanged.",
+            "items" : {
+              "type" : "integer"
+            }
+          }
+        }
+      },
+      "PluginData" : {
+        "type" : "object",
+        "required" : [
+          "id",
+          "versiontext",
+          "version",
+          "creator",
+          "createdAt",
+          "name",
+          "description",
+          "tags",
+          "artifactUrl"
+        ],
+        "properties" : {
+          "archived" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "versiontext" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "object",
+            "required" : [
+              "major"
+            ],
+            "properties" : {
+              "major" : {
+                "type" : "integer"
+              },
+              "minor" : {
+                "type" : "integer"
+              },
+              "patch" : {
+                "type" : "integer"
+              }
+            }
+          },
+          "creator" : {
+            "type" : "integer"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "tags" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "artifactUrl" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PluginUploadData" : {
+        "type" : "object",
+        "required" : [
+          "id",
+          "versiontext",
+          "version",
+          "creator",
+          "createdAt",
+          "name",
+          "description",
+          "tags",
+          "artifactData"
+        ],
+        "properties" : {
+          "archived" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "versiontext" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "object",
+            "required" : [
+              "major"
+            ],
+            "properties" : {
+              "major" : {
+                "type" : "integer"
+              },
+              "minor" : {
+                "type" : "integer"
+              },
+              "patch" : {
+                "type" : "integer"
+              }
+            }
+          },
+          "creator" : {
+            "type" : "integer"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "tags" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "artifactData" : {
+            "type" : "array",
+            "description" : "Binary data of the JAR-File with the plugin data",
+            "items" : {
+              "type" : "integer"
+            }
+          }
+        }
+      },
+      "PluginFilterData" : {
+        "type" : "object",
+        "properties" : {
+          "searchterm" : {
+            "type" : "string"
+          },
+          "creator" : {
+            "type" : "integer"
+          },
+          "tags" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "timerange" : {
+            "type" : "object",
+            "properties" : {
+              "from" : {
+                "type" : "string",
+                "format" : "date-time"
+              },
+              "until" : {
+                "type" : "string",
+                "format" : "date-time"
+              }
+            }
+          }
+        }
+      },
+      "ServerData" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "type" : "string"
+        }
+      },
+      "PaginatedPluginData" : {
+        "type" : "object",
+        "properties" : {
+          "plugins" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PluginData"
+            }
+          },
+          "start" : {
+            "type" : "integer"
+          },
+          "amount" : {
+            "type" : "integer"
+          },
+          "nextPage" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "googleOAuth" : {
+        "type" : "oauth2",
+        "flows" : {
+          "authorizationCode" : {
+            "authorizationUrl" : "https://accounts.google.com/o/oauth2/v2/auth",
+            "tokenUrl" : "https://www.googleapis.com/oauth2/v4/token",
+            "refreshUrl" : "https://www.googleapis.com/oauth2/v4/token",
+            "scopes" : {}
+          }
+        }
+      }
+    }
+  },
+  "tags" : [
+    {
+      "name" : "authentication",
+      "description" : "endpoints used for registration and user management"
+    },
+    {
+      "name" : "plugins",
+      "description" : "endpoints used for retrieving/uploading plugins"
+    }
+  ]
+}
